@@ -1,0 +1,14 @@
+venv
+.idea
+production.env
+.env.local
+.env.poduction
+.env.stage
+.env.test
+
+migrations/versions/__pycache__/
+core/__pycache__/
+app/evolosmart/
+app/auth/crud/__pycache__/
+app/auth/__pycache__/
+app/__pycache__/

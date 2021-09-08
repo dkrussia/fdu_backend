@@ -1,0 +1,20 @@
+version: '3'
+services:
+  backend_main:
+    container_name: 'fdu_backend'
+    restart: unless-stopped
+    build: .
+    command: ./start.sh
+    volumes:
+        - .:/app
+    environment:
+      TZ: Europe/Moscow
+      SERVER_MODE: test
+    networks:
+        - nginx.docker
+
+
+networks:
+  nginx.docker:
+    name: nginx.docker
+    external: true
