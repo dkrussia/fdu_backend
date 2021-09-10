@@ -20,3 +20,7 @@ class Article(BaseSchema):
 
 class ArticleList(BaseSchema):
     articles: List[Article]
+
+class TreeNodeForm(BaseSchema):
+    id: int = Field(hide=True)
+    comment:Any = Field(extended_type='editor')
