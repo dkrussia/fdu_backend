@@ -121,13 +121,6 @@ async def get_fdu_tree():
     return {'result': True, 'tree': tree}
 
 # TODO: исправить этот ужас
-result = []
-def find_node_by_id(tree, id):
-    for node in tree:
-        if node["id"] == id:
-            return result.append(node)
-        elif "children" in node.keys() and len(node["children"]) != 0:
-            find_node_by_id(node["children"], id)
 
 @fdu_router.get('/node/form')
 async def get_node_form():
@@ -136,13 +129,21 @@ async def get_node_form():
 
 @fdu_router.post('/node/set_comment/{id}')
 async def get_set_comment(request: Request, id: int, tree_node: schema.TreeNodeForm):
+    result = []
+    def find_node_by_id(tree, id):
+        for node in tree:
+            if node["id"] == id:
+                return result.append(node)
+            elif "children" in node.keys() and len(node["children"]) != 0:
+                find_node_by_id(node["children"], id)
+
     with open('fdu_tree.json', 'r', encoding='utf-8') as tree_json:
         tree = json.load(tree_json)
 
     find_node_by_id(tree, id)
     _Local = request.headers["Accept-Language"]
     result[0][_Local]["comment"] = tree_node.comment
-
+    pprint(tree_node.comment)
     with open('fdu_tree.json', 'w', encoding='utf-8') as tree_json:
         tree_json.write(json.dumps(tree, ensure_ascii=False), )
     return {'result': True}
